@@ -7,8 +7,6 @@ namespace Crossing.Counter.Abstracts
     /// </summary>
     internal abstract class BaseCounter : ICounter
     {
-        public abstract long Count(string filePath);
-
         public IEnumerable<long> ReadFile(string filePath)
         {
             using var reader = new System.IO.StreamReader(filePath);
@@ -21,5 +19,16 @@ namespace Crossing.Counter.Abstracts
                 yield return int.Parse(line);
             }
         }
+
+        public long Count(string filePath)
+        {
+            // ファイル読み込み
+            var values = ReadFile(filePath);
+
+            // 交差数を返す
+            return Count(values);
+        }
+
+        public abstract long Count(IEnumerable<long> values);
     }
 }

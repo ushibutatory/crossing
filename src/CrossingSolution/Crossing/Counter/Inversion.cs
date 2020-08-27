@@ -10,21 +10,13 @@ namespace Crossing.Counter
     /// </summary>
     internal class Inversion : BaseCounter
     {
-        /// <summary>
-        /// 交差数をカウントします。
-        /// </summary>
-        /// <param name="filePath">ファイルパス</param>
-        /// <returns>交差数</returns>
-        public override long Count(string filePath)
+        public override long Count(IEnumerable<long> values)
         {
-            // ファイル読み込み
-            var list = ReadFile(filePath);
-
             // 交差点の数を初期化
             var count = (long)0;
 
             // 最大値（桁数を数えるため）
-            var maxValue = list.Max();
+            var maxValue = values.Max();
 
             // 最大長（最大値を2進数にした時の桁数）
             var maxLength = Convert.ToString(maxValue, 2).Length;
@@ -32,7 +24,7 @@ namespace Crossing.Counter
             // 転倒数リストを初期化
             var inversionList = new Dictionary<string, int>();
 
-            foreach (var value in list)
+            foreach (var value in values)
             {
                 // 2進数に変換（最大長まで0埋め）
                 var valueString = Convert.ToString(value, 2).PadLeft(maxLength, '0');

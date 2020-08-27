@@ -39,17 +39,26 @@ namespace Crossing
                         // 測定
                         algorithms.ToList().ForEach((counter) =>
                         {
-                            // 開始日時
-                            var start = DateTime.Now;
+                            var time0 = DateTime.Now;
+
+                            // 読み込み
+                            var values = counter.ReadFile(filePath);
+                            var time1 = DateTime.Now;
 
                             // カウント結果を取得
-                            var count = counter.Count(filePath);
+                            var count = counter.Count(values);
 
-                            // 終了日時
-                            var end = DateTime.Now;
+                            var time9 = DateTime.Now;
 
                             // 結果表示
-                            Console.WriteLine($"Algorithm:{counter.GetType().Name}, Count:{count:#,##0}, Time:{end - start:hh\\:mm\\:ss\\.fff}");
+                            var timeFormat = "mm\\:ss\\.fff";
+
+                            var text = new StringBuilder();
+                            text.AppendLine($"Algorythm: {counter.GetType().Name}");
+                            text.AppendLine($"  Count: {count:#,##0}");
+                            text.AppendLine($"  Count Time: {(time9 - time1).ToString(timeFormat)}");
+                            text.AppendLine($"  Total Time: {(time9 - time0).ToString(timeFormat)}");
+                            Console.WriteLine(text.ToString());
                         });
                     }
                     break;

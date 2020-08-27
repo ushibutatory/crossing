@@ -10,18 +10,10 @@ namespace Crossing.Counter
     /// </summary>
     internal class MergeSort : BaseCounter
     {
-        /// <summary>
-        /// 交差数をカウントします。
-        /// </summary>
-        /// <param name="filePath">ファイルパス</param>
-        /// <returns>交差数</returns>
-        public override long Count(string filePath)
+        public override long Count(IEnumerable<long> values)
         {
-            // ファイル読み込み
-            var list = ReadFile(filePath);
-
             // マージソートによる演算結果を取得
-            var result = _MergeSort(list);
+            var result = _MergeSort(values);
 
             // 交差数を返す
             return result.Count;

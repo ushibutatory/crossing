@@ -20,5 +20,12 @@ namespace Crossing.Counter.Abstracts
         /// <param name="filePath">ファイルパス</param>
         /// <returns>交差数</returns>
         public long Count(string filePath);
+
+        /// <summary>
+        /// 交差数を返します。
+        /// </summary>
+        /// <param name="values">数値リスト</param>
+        /// <returns>交差数</returns>
+        public long Count(IEnumerable<long> values);
     }
 }

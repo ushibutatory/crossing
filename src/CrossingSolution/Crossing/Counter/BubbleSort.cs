@@ -1,4 +1,5 @@
 ﻿using Crossing.Counter.Abstracts;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Crossing.Counter
@@ -8,15 +9,9 @@ namespace Crossing.Counter
     /// </summary>
     internal class BubbleSort : BaseCounter
     {
-        /// <summary>
-        /// 交差数をカウントします。
-        /// </summary>
-        /// <param name="filePath">ファイルパス</param>
-        /// <returns>交差数</returns>
-        public override long Count(string filePath)
+        public override long Count(IEnumerable<long> values)
         {
-            // ファイル読み込み
-            var list = ReadFile(filePath).ToArray();
+            var list = values.ToArray();
 
             // 交差数を初期化
             var count = (long)0;
