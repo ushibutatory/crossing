@@ -29,31 +29,31 @@ namespace Crossing.Counter
         /// <summary>
         /// マージソートを実行します。
         /// </summary>
-        /// <param name="list">ソート対象リスト</param>
+        /// <param name="values">ソート対象リスト</param>
         /// <returns>ソート結果</returns>
-        private Result _MergeSort(List<int> list)
+        private Result _MergeSort(IEnumerable<int> values)
         {
             Result result;
 
-            if (list.Count == 1)
+            if (values.Count() == 1)
             {
                 // 要素が1個の場合はソートしない
                 result = new Result
                 {
                     Count = 0,
-                    List = list
+                    List = values.ToList()
                 };
             }
             else
             {
                 // リストの中間のインデックス
-                var half = list.Count / 2;
+                var half = values.Count() / 2;
 
                 // リストの前半と後半をそれぞれマージソート
                 Result subResult1 = null;
                 Result subResult2 = null;
-                using (var task1 = Task.Run(() => { subResult1 = _MergeSort(list.Take(half).ToList()); }))
-                using (var task2 = Task.Run(() => { subResult2 = _MergeSort(list.Skip(half).ToList()); }))
+                using (var task1 = Task.Run(() => { subResult1 = _MergeSort(values.Take(half).ToList()); }))
+                using (var task2 = Task.Run(() => { subResult2 = _MergeSort(values.Skip(half).ToList()); }))
                 {
                     // 待機
                     Task.WaitAll(task1, task2);

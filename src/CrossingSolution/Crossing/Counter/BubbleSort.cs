@@ -1,4 +1,6 @@
-﻿namespace Crossing.Counter
+﻿using System.Linq;
+
+namespace Crossing.Counter
 {
     /// <summary>
     /// バブルソート
@@ -13,12 +15,12 @@
         public override long Count(string filePath)
         {
             // ファイル読み込み
-            var list = _ReadFile(filePath);
+            var list = _ReadFile(filePath).ToArray();
 
             // 交差数を初期化
             var count = (long)0;
 
-            for (var endIndex = list.Count - 1; endIndex > 0; endIndex--)
+            for (var endIndex = list.Count() - 1; endIndex > 0; endIndex--)
             {
                 // 先頭から走査
                 for (var startIndex = 0; startIndex < endIndex; startIndex++)

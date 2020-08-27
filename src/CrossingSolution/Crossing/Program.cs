@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace Crossing
@@ -20,17 +21,35 @@ namespace Crossing
                     var filePath = args[0];
 
                     // 検証
-                    var errorList = _Validate(filePath);
-                    if (errorList.Count > 0)
+                    var errors = _Validate(filePath);
+                    if (errors.Count() > 0)
                     {
-                        Console.Write(string.Join(Environment.NewLine, errorList));
+                        Console.Write(string.Join(Environment.NewLine, errors));
                     }
                     else
                     {
-                        // 演算
-                        _Execute((new Inversion()), filePath);
-                        _Execute((new MergeSort()), filePath);
-                        //_Execute((new BubbleSort()), filePath); // あまりに遅すぎるのでコメントアウト
+                        // 測定対象のアルゴリズム
+                        var algorithms = new ICounter[] {
+                            new Inversion(),
+                            new MergeSort(),
+                            //new BubbleSort(), // あまりに遅すぎるのでコメントアウト
+                        };
+
+                        // 測定
+                        algorithms.ToList().ForEach((counter) =>
+                        {
+                            // 開始日時
+                            var start = DateTime.Now;
+
+                            // カウント結果を取得
+                            var count = counter.Count(filePath);
+
+                            // 終了日時
+                            var end = DateTime.Now;
+
+                            // 結果表示
+                            Console.WriteLine($"Algorithm:{counter.GetType().Name}, Count:{count:#,##0}, Time:{end - start:hh\\:mm\\:ss\\.fff}");
+                        });
                     }
                     break;
 
@@ -48,13 +67,11 @@ namespace Crossing
         /// </summary>
         /// <param name="filePath">ファイルパス</param>
         /// <returns>エラーリスト</returns>
-        private static List<string> _Validate(string filePath)
+        private static IEnumerable<string> _Validate(string filePath)
         {
-            var errorList = new List<string>();
-
             if (!File.Exists(filePath))
             {
-                errorList.Add("指定されたファイルが存在しません。");
+                yield return "指定されたファイルが存在しません。";
             }
             else
             {
@@ -62,31 +79,9 @@ namespace Crossing
                 var fileInfo = new FileInfo(filePath);
                 if (fileInfo.Extension.ToLower() != ".txt")
                 {
-                    errorList.Add(".txtファイルを指定してください。");
+                    yield return ".txtファイルを指定してください。";
                 }
             }
-
-            return errorList;
-        }
-
-        /// <summary>
-        /// 交差点をカウントします。
-        /// </summary>
-        /// <param name="counter">カウンターオブジェクト</param>
-        /// <param name="filePath">対象ファイルパス</param>
-        private static void _Execute(BaseCounter counter, string filePath)
-        {
-            // 開始日時
-            var start = DateTime.Now;
-
-            // カウント結果を取得
-            var count = counter.Count(filePath);
-
-            // 終了日時
-            var end = DateTime.Now;
-
-            // 結果表示
-            Console.WriteLine($"Algorithm:{counter.GetType().Name}, Count:{count:#,##0}, Time:{end - start:hh\\:mm\\:ss\\.fff}");
         }
     }
 }
