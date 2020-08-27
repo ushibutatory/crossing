@@ -18,7 +18,7 @@ namespace Crossing.Counter
         public override long Count(string filePath)
         {
             // ファイル読み込み
-            var list = _ReadFile(filePath);
+            var list = ReadFile(filePath);
 
             // マージソートによる演算結果を取得
             var result = _MergeSort(list);
@@ -32,7 +32,7 @@ namespace Crossing.Counter
         /// </summary>
         /// <param name="values">ソート対象リスト</param>
         /// <returns>ソート結果</returns>
-        private Result _MergeSort(IEnumerable<int> values)
+        private Result _MergeSort(IEnumerable<long> values)
         {
             Result result;
 
@@ -63,7 +63,7 @@ namespace Crossing.Counter
                 // それぞれの結果をマージ
                 result = new Result
                 {
-                    List = new List<int>(),
+                    List = new List<long>(),
                     Count = subResult1.Count + subResult2.Count
                 };
 
@@ -113,7 +113,7 @@ namespace Crossing.Counter
             /// <summary>
             /// ソート後リスト
             /// </summary>
-            public List<int> List { get; set; }
+            public List<long> List { get; set; }
         }
     }
 }

@@ -18,7 +18,7 @@ namespace Crossing.Counter
         public override long Count(string filePath)
         {
             // ファイル読み込み
-            var list = _ReadFile(filePath);
+            var list = ReadFile(filePath);
 
             // 交差点の数を初期化
             var count = (long)0;

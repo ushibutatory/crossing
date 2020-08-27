@@ -16,7 +16,7 @@ namespace Crossing.Counter
         public override long Count(string filePath)
         {
             // ファイル読み込み
-            var list = _ReadFile(filePath).ToArray();
+            var list = ReadFile(filePath).ToArray();
 
             // 交差数を初期化
             var count = (long)0;

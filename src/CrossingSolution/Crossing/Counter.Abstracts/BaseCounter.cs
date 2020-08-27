@@ -9,12 +9,7 @@ namespace Crossing.Counter.Abstracts
     {
         public abstract long Count(string filePath);
 
-        /// <summary>
-        /// ファイルを読み込んで数値リストを返します。
-        /// </summary>
-        /// <param name="filePath">ファイルパス</param>
-        /// <returns>数値リスト</returns>
-        protected IEnumerable<int> _ReadFile(string filePath)
+        public IEnumerable<long> ReadFile(string filePath)
         {
             using var reader = new System.IO.StreamReader(filePath);
             while (!reader.EndOfStream)
