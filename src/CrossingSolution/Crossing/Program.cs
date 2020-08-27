@@ -1,4 +1,5 @@
 ﻿using Crossing.Counter;
+using Crossing.Counter.Abstracts;
 using System;
 using System.Collections.Generic;
 using System.IO;

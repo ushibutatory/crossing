@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using Crossing.Counter.Abstracts;
+using System.Linq;
 
 namespace Crossing.Counter
 {

@@ -1,4 +1,4 @@
-﻿namespace Crossing.Counter
+﻿namespace Crossing.Counter.Abstracts
 {
     /// <summary>
     /// カウンタインタフェース

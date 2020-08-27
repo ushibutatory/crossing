@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Crossing.Counter
+namespace Crossing.Counter.Abstracts
 {
     /// <summary>
     /// 基底カウンタクラス
