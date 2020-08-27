@@ -3,7 +3,7 @@
 結城浩先生が出題されたクロッシング問題に挑戦しました。
 
 - [CodeIQの問題に挑戦しよう！](http://www.hyuki.com/codeiq/#c12)
-- [問題ページ（※リンク切れ）](https://codeiq.jp/ace/yuki_hiroshi/q432)に挑戦しました。
+- [問題ページ（※リンク切れ）](https://codeiq.jp/ace/yuki_hiroshi/q432)
 
 > 問題発表当時（2013年頃）に既に実装済みでしたが、.NETのバージョンアップや細かい記法の見直しなどを2020年に行いました。
 
