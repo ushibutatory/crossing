@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Crossing": {
+      "commandName": "Project",
+      "commandLineArgs": "./data/sample5.txt"
+    }
+  }
+}

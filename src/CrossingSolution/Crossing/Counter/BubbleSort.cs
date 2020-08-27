@@ -1,47 +1,45 @@
-﻿using System;
-
-namespace Crossing.Counter
+﻿namespace Crossing.Counter
 {
-	/// <summary>
-	/// バブルソート
-	/// </summary>
-	internal class BubbleSort : BaseCounter
-	{
-		/// <summary>
-		/// 交差数をカウントします。
-		/// </summary>
-		/// <param name="filePath">ファイルパス</param>
-		/// <returns>交差数</returns>
-		public override long Count(string filePath)
-		{
-			// ファイル読み込み
-			var list = this._ReadFile(filePath);
+    /// <summary>
+    /// バブルソート
+    /// </summary>
+    internal class BubbleSort : BaseCounter
+    {
+        /// <summary>
+        /// 交差数をカウントします。
+        /// </summary>
+        /// <param name="filePath">ファイルパス</param>
+        /// <returns>交差数</returns>
+        public override long Count(string filePath)
+        {
+            // ファイル読み込み
+            var list = _ReadFile(filePath);
 
-			// 交差数を初期化
-			var count = (Int64)0;
+            // 交差数を初期化
+            var count = (long)0;
 
-			for (var endIndex = list.Count - 1; endIndex > 0; endIndex--)
-			{
-				// 先頭から走査
-				for (var startIndex = 0; startIndex < endIndex; startIndex++)
-				{
-					// 隣同士を取得
-					var x = list[startIndex];
-					var y = list[startIndex + 1];
+            for (var endIndex = list.Count - 1; endIndex > 0; endIndex--)
+            {
+                // 先頭から走査
+                for (var startIndex = 0; startIndex < endIndex; startIndex++)
+                {
+                    // 隣同士を取得
+                    var x = list[startIndex];
+                    var y = list[startIndex + 1];
 
-					if (x > y)
-					{
-						// 入れ替える
-						list[startIndex] = y;
-						list[startIndex + 1] = x;
+                    if (x > y)
+                    {
+                        // 入れ替える
+                        list[startIndex] = y;
+                        list[startIndex + 1] = x;
 
-						// 交差数を加算
-						count++;
-					}
-				}
-			}
+                        // 交差数を加算
+                        count++;
+                    }
+                }
+            }
 
-			return count;
-		}
-	}
+            return count;
+        }
+    }
 }
