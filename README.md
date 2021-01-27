@@ -9,6 +9,8 @@
 
 ## 実装言語、実行環境
 
+![Build and Test](https://github.com/ushibutatory/crossing/workflows/Build%20and%20Test/badge.svg)
+
 - C#
 - .NET Core 3.1
 
