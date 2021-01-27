@@ -1,4 +1,4 @@
-name: Sync labels
+name: Setting Labels
 
 on:
   push:
@@ -6,15 +6,15 @@ on:
       - master
     paths:
       - .github/labels.yml
+      - .github/workflows/SettingLabels.yml
 
 jobs:
-  sync:
-    name: Run
+  setting:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Sync labels
+      - name: Setting labels
         uses: b4b4r07/github-labeler@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
