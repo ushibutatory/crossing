@@ -8,7 +8,7 @@ namespace Crossing.Counter
     /// <summary>
     /// マージソートによるカウント
     /// </summary>
-    internal class MergeSort : BaseCounter
+    public class MergeSort : BaseCounter
     {
         public override long Count(IEnumerable<long> values)
         {

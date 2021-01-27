@@ -7,7 +7,7 @@ namespace Crossing.Counter
     /// <summary>
     /// バブルソート
     /// </summary>
-    internal class BubbleSort : BaseCounter
+    public class BubbleSort : BaseCounter
     {
         public override long Count(IEnumerable<long> values)
         {

@@ -1,0 +1,23 @@
+﻿using Crossing.Counter;
+using Crossing.Counter.Abstracts;
+using Xunit;
+
+namespace Crossing.Tests.Counter
+{
+    public class InversionTest
+    {
+        private readonly ICounter _counter = new Inversion();
+
+        [Theory]
+        [InlineData("data/sample5.txt", 4)]
+        [InlineData("data/sample3000.txt", 2217109)]
+        [InlineData("data/sample10000.txt", 25029255)]
+        [InlineData("data/crossing.txt", 275115831438)]
+        public void Count(string filePath, long expected)
+        {
+            var actual = _counter.Count(filePath);
+
+            Assert.Equal(expected, actual);
+        }
+    }
+}

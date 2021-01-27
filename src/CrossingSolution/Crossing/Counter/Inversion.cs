@@ -8,7 +8,7 @@ namespace Crossing.Counter
     /// <summary>
     /// 転倒
     /// </summary>
-    internal class Inversion : BaseCounter
+    public class Inversion : BaseCounter
     {
         public override long Count(IEnumerable<long> values)
         {

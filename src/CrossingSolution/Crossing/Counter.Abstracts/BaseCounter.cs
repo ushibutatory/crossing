@@ -5,7 +5,7 @@ namespace Crossing.Counter.Abstracts
     /// <summary>
     /// 基底カウンタクラス
     /// </summary>
-    internal abstract class BaseCounter : ICounter
+    public abstract class BaseCounter : ICounter
     {
         public IEnumerable<long> ReadFile(string filePath)
         {
