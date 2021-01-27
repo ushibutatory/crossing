@@ -16,7 +16,7 @@ namespace Crossing.Counter.Abstracts
                 var line = reader.ReadLine();
 
                 // 数値変換して返す
-                yield return int.Parse(line);
+                yield return long.Parse(line);
             }
         }
 
