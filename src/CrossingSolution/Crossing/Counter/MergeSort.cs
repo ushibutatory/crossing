@@ -16,7 +16,7 @@ namespace Crossing.Counter
             var result = _MergeSort(values);
 
             // 交差数を返す
-            return result.Count;
+            return result.CrossingCount;
         }
 
         /// <summary>
@@ -26,86 +26,120 @@ namespace Crossing.Counter
         /// <returns>ソート結果</returns>
         private Result _MergeSort(IEnumerable<long> values)
         {
-            Result result;
+            // 要素が1個以下の場合はソート不要
+            if (values.Count() <= 1) return Result.New(values);
 
-            if (values.Count() == 1)
+            // リストの中間のインデックス
+            var half = values.Count() / 2;
+
+            // リストの前半と後半をそれぞれマージソート
+            Result subResult1 = null;
+            Result subResult2 = null;
+            Task.WaitAll(new[]
             {
-                // 要素が1個の場合はソートしない
-                result = new Result
-                {
-                    Count = 0,
-                    List = values.ToList()
-                };
-            }
-            else
+                Task.Run(() => { subResult1 = _MergeSort(values.Take(half).ToArray()); }),
+                Task.Run(() => { subResult2 = _MergeSort(values.Skip(half).ToArray()); }),
+            });
+
+            // それぞれの結果をマージ
+            var result = Result
+                .New()
+                .Countup(subResult1.CrossingCount + subResult2.CrossingCount);
+
+            while (subResult1.Values.Count > 0 && subResult2.Values.Count > 0)
             {
-                // リストの中間のインデックス
-                var half = values.Count() / 2;
-
-                // リストの前半と後半をそれぞれマージソート
-                Result subResult1 = null;
-                Result subResult2 = null;
-                using (var task1 = Task.Run(() => { subResult1 = _MergeSort(values.Take(half).ToList()); }))
-                using (var task2 = Task.Run(() => { subResult2 = _MergeSort(values.Skip(half).ToList()); }))
+                // 2つのリストのそれぞれ先頭を比較
+                if (subResult1.Values.First() > subResult2.Values.First())
                 {
-                    // 待機
-                    Task.WaitAll(task1, task2);
+                    // 交差あり（交差数を加算）
+                    result.AddValue(subResult2.PullAt(0))
+                        .Countup(subResult1.Values.Count);
                 }
-
-                // それぞれの結果をマージ
-                result = new Result
+                else
                 {
-                    List = new List<long>(),
-                    Count = subResult1.Count + subResult2.Count
-                };
-
-                while (subResult1.List.Count > 0 && subResult2.List.Count > 0)
-                {
-                    // 2つのリストのそれぞれ先頭を比較
-                    if (subResult1.List.First() > subResult2.List.First())
-                    {
-                        // 交差あり
-                        result.List.Add(subResult2.List.First());
-                        subResult2.List.RemoveAt(0);
-                        result.Count += subResult1.List.Count; // 交差数を加算
-                    }
-                    else
-                    {
-                        // 交差なし
-                        result.List.Add(subResult1.List.First());
-                        subResult1.List.RemoveAt(0);
-                    }
-                }
-
-                // 残ったリストを末尾に結合
-                if (subResult1.List.Count > 0)
-                {
-                    result.List.AddRange(subResult1.List);
-                }
-                if (subResult2.List.Count > 0)
-                {
-                    result.List.AddRange(subResult2.List);
+                    // 交差なし
+                    result.AddValue(subResult1.PullAt(0));
                 }
             }
 
-            // 結果を返す
+            // 残ったリストを末尾に結合
+            if (subResult1.Values.Count > 0) result.AddValues(subResult1.Values);
+            if (subResult2.Values.Count > 0) result.AddValues(subResult2.Values);
+
             return result;
         }
 
         /// <summary>
-        /// マージソート結果クラス
+        /// マージソート結果
         /// </summary>
         private class Result
         {
             /// <summary>
             /// 交差数
             /// </summary>
-            public long Count { get; set; }
+            public long CrossingCount { get; private set; }
 
             /// <summary>
-            /// ソート後リスト
+            /// 値リスト
             /// </summary>
-            public List<long> List { get; set; }
+            public IReadOnlyCollection<long> Values => _values;
+
+            /// <summary>
+            /// 値リスト（操作用）
+            /// </summary>
+            private List<long> _values;
+
+            /// <summary>
+            /// 新しいインスタンスを生成します。
+            /// </summary>
+            public static Result New() => New(new List<long>());
+
+            /// <summary>
+            /// 新しいインスタンスを生成します。
+            /// </summary>
+            public static Result New(IEnumerable<long> values) => new Result
+            {
+                CrossingCount = 0,
+                _values = values.ToList(),
+            };
+
+            /// <summary>
+            /// 交差数を加算します。
+            /// </summary>
+            public Result Countup(long count)
+            {
+                CrossingCount += count;
+                return this;
+            }
+
+            /// <summary>
+            /// 値リストに値を追加します。
+            /// </summary>
+            public Result AddValue(long value)
+            {
+                _values.Add(value);
+                return this;
+            }
+
+            /// <summary>
+            /// 値リストに値を追加します。
+            /// </summary>
+            public Result AddValues(IEnumerable<long> values)
+            {
+                _values.AddRange(values);
+                return this;
+            }
+
+            /// <summary>
+            /// 値リストから指定したインデックス位置の値を取得します。
+            /// 取得した値はリストから除去されます。
+            /// </summary>
+            public long PullAt(int index)
+            {
+                var value = _values.ElementAt(index);
+                _values.RemoveAt(index);
+                return value;
+            }
         }
     }
 }
