@@ -1,4 +1,5 @@
 ﻿using Crossing.Counter.Abstracts;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -30,7 +31,7 @@ namespace Crossing.Counter
             if (values.Count() <= 1) return Result.New(values);
 
             // リストの中間のインデックス
-            var half = values.Count() / 2;
+            var half = (int)Math.Ceiling((float)values.Count() / 2);
 
             // リストの前半と後半をそれぞれマージソート
             Result subResult1 = null;
