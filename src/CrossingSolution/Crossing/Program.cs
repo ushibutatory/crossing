@@ -72,6 +72,7 @@ namespace Crossing
                     break;
             }
         }
+
         /// <summary>
         /// ファイルパスを検証します。
         /// </summary>
@@ -83,14 +84,11 @@ namespace Crossing
             {
                 yield return "指定されたファイルが存在しません。";
             }
-            else
+
+            var fileInfo = new FileInfo(filePath);
+            if (fileInfo.Extension.ToLower() != ".txt")
             {
-                // ファイル情報取得
-                var fileInfo = new FileInfo(filePath);
-                if (fileInfo.Extension.ToLower() != ".txt")
-                {
-                    yield return ".txtファイルを指定してください。";
-                }
+                yield return ".txtファイルを指定してください。";
             }
         }
     }
