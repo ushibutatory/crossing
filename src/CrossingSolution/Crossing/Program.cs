@@ -2,6 +2,7 @@
 using Crossing.Counter.Abstracts;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -39,25 +40,29 @@ namespace Crossing
                         // 測定
                         algorithms.ToList().ForEach((counter) =>
                         {
-                            var time0 = DateTime.Now;
+                            var totalWatch = new Stopwatch();
+                            var countWatch = new Stopwatch();
+
+                            totalWatch.Start();
 
                             // 読み込み
                             var values = counter.ReadFile(filePath);
-                            var time1 = DateTime.Now;
 
                             // カウント結果を取得
+                            countWatch.Start();
                             var count = counter.Count(values);
+                            countWatch.Stop();
 
-                            var time9 = DateTime.Now;
+                            totalWatch.Stop();
 
                             // 結果表示
-                            var timeFormat = "mm\\:ss\\.fff";
+                            const string timeFormat = "mm\\:ss\\.fff";
 
                             var text = new StringBuilder();
                             text.AppendLine($"Algorythm: {counter.GetType().Name}");
                             text.AppendLine($"  Count: {count:#,##0}");
-                            text.AppendLine($"  Count Time: {(time9 - time1).ToString(timeFormat)}");
-                            text.AppendLine($"  Total Time: {(time9 - time0).ToString(timeFormat)}");
+                            text.AppendLine($"  Count Time: {countWatch.Elapsed.ToString(timeFormat)}");
+                            text.AppendLine($"  Total Time: {totalWatch.Elapsed.ToString(timeFormat)}");
                             Console.WriteLine(text.ToString());
                         });
                     }
