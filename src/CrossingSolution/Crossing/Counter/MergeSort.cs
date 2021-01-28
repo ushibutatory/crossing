@@ -136,7 +136,7 @@ namespace Crossing.Counter
             /// </summary>
             public long PullAt(int index)
             {
-                var value = _values.ElementAt(index);
+                var value = _values[index];
                 _values.RemoveAt(index);
                 return value;
             }
