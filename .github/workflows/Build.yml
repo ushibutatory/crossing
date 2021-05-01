@@ -2,11 +2,9 @@ name: "Build and Test"
 
 on:
   push:
-    branches:
-      - master
     paths:
-      - src/**
       - .github/workflows/Build.yml
+      - src/**
 
 jobs:
   build:
