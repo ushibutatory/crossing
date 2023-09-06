@@ -2,6 +2,7 @@ version: 2
 updates:
   - package-ecosystem: "nuget"
     directory: "/src/CrossingSolution/"
+    target-branch: "develop"
     schedule:
       interval: "monthly"
     reviewers:

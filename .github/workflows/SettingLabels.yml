@@ -3,7 +3,7 @@ name: Setting Labels
 on:
   push:
     branches:
-      - master
+      - main
     paths:
       - .github/labels.yml
       - .github/workflows/SettingLabels.yml
